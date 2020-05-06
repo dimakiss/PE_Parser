@@ -1,7 +1,7 @@
 # PE_Parser
 
 Pe parser is a simple parser of PE (executable) files for both x86 and x64 bit systems.\
-Based on the PE Format of microsoft [a link](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format)
+Based on the PE Format of microsoft [PE Format - Win32 apps | Microsoft Docs](https://docs.microsoft.com/en-us/windows/win32/debug/pe-format)
 
 
 ## requirments 
