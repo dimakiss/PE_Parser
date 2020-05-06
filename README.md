@@ -2,7 +2,9 @@
 
 Pe parser is a simple parser of PE (executable) files for both x86 and x64 bit systems.
 
+## requirments 
 
+* Python 3
 
 ## Usage
 
@@ -14,9 +16,8 @@ python PE_Parser.py <filepath> <newfilename>
 * **newfilename** - the name you want to give to that data file that will be created
 
 `Note: Make sure that dataformat.txt will be with the same location as the  PE_Parser.py`
-
 ## Example
-An example of 32bit executable file's Pe data 
+An example of 32bit executable file's PE data saved to text file 
 
 ```
 --------------DOS HEADER--------------
