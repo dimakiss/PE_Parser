@@ -1,7 +1,7 @@
 import os,sys
-import copy
-
 from argparse import ArgumentParser
+
+#decide if the oput put is for x64/x32 machine
 def get_the_output(data,index,dep,len):
     string_to_write=[]
 
@@ -12,39 +12,55 @@ def get_the_output(data,index,dep,len):
         string_to_write.append(hex_string_join(data[index:index + len]))
         string_to_write.append(1) #1 for number
     return string_to_write
+
+#gets hex code 
+#return joind hex as string
 def hex_string_join(hex_str):
     hex_str=endin_str(hex_str)
     hex_str=str().join(hex_str)
     while  hex_str.__len__()>1 and hex_str[0]=="0":
         hex_str=hex_str[1:]
     return hex_str
+#get hex code
+#return the hex code to its character value 
 def hex_string_to_chars(hex_str):
     chars=""
     for i in hex_str:
         chars+=chr(int(i,16))
     return chars
+#get hex code
+#return the hex code reversed
 def endin_str(hex_str):
     hex_str.reverse()
     return hex_str
+#get hex code
+#return the hex code reversed as number
 def endin_int(hex_str):
     hex_str.reverse()
     hex_str=str().join(hex_str)
     return int(hex_str,16)
+#Pe_format_sample get file_path and name
+#Pe_format_sample create new text file named the name that user gave it and saves
+# it in the save directory as the script
 def Pe_format_sample(file_path,newfilename):
     # getting files binaries
     string_to_write = ""
+    
+    #checks is the path is full path
     if file_path.__contains__("C:")==False:
         file_path=(os.path.join(sys.path[0],file_path))
+    #get files binary
     with open(file_path, 'rb') as f:
         buffer = f.read()
     buffer = ['{:02X}'.format(b) for b in buffer]
+    
     location_of_Pe_header = endin_int(buffer[0x3c:0x40])
     pointer_to_Pe_Header = location_of_Pe_header  # the pointer to Pe Header
     pe_header=buffer[pointer_to_Pe_Header:] # the Pe header
     machine=hex_string_join(pe_header[0x4:0x6])
+    
     size_of_optional_header=endin_int(pe_header[0x14:0x16])# size of optional header which start in offset 0x18
     location_of_optional_header=0x18 # optional header's location realtive to PE SIG
-
     optional_header=pe_header[location_of_optional_header:location_of_optional_header+size_of_optional_header]
 
     number_of_section=endin_int(pe_header[0x6:0x8]) # number of section located in offset 0x6 in PE header
@@ -52,8 +68,8 @@ def Pe_format_sample(file_path,newfilename):
     size_of_section_table=0x28*number_of_section # every section 0x28 bytes long
     section_table=pe_header[location_of_saction_table:location_of_saction_table+size_of_section_table] # 0x28*number_size of section table
     buffer_list_data=[buffer,pe_header,optional_header,section_table]
-    # the Pe header
 
+    #get the data structure of every section of the PE (Dos.., section table...,) 
     with open(os.path.join(sys.path[0],"dataformat.txt"), 'r') as f:
         datastructure = str(f.read())
 
@@ -63,14 +79,14 @@ def Pe_format_sample(file_path,newfilename):
     pe_header_format = splited_format[1]
     optional_header_format = splited_format[2]
     section_format = splited_format[3]
-
+    
     for j in range(splited_format.__len__()):
         format = splited_format[j]
         index = 0
         length = 0
         section_identefier=1
         if j==3:
-            section_identefier=number_of_section
+            section_identefier=number_of_section #how much of every structure default:1
         for q in range(section_identefier):
             for i in format.split('\n'):
                 if i.split("=").__len__() == 2:
@@ -107,6 +123,7 @@ def Pe_format_sample(file_path,newfilename):
               +(os.path.join(sys.path[0],newfilename+".txt"))+"\n--\n-----------------"
             "----------------------------------------------\n---------------------------------------------------------------\n")
 
+#main
 if __name__ == '__main__':
     parser = ArgumentParser(argument_default="proper use : Python <filepath> <newfilename>",
                             description='Pe Header Parser',
