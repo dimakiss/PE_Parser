@@ -17,9 +17,9 @@ python PE_Parser.py <filepath> <newfilename>
 
 * **newfilename** - the name you want to give to that data file that will be created
 
-`Note: Make sure that dataformat.txt will be with the same location as the  PE_Parser.py`
+`Note: Make sure that dataformat.txt will be in the same location as the  PE_Parser.py`
 ## Example
-An example of 32bit executable file's PE data saved to text file 
+An example of 32bit executable file's PE data saved to [test.txt](test.txt)
 
 ```
 --------------DOS HEADER--------------
